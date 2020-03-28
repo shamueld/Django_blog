@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render,redirect,get_object_or_404
-from django.util import timezone
+from django.utils import timezone
 from blog.models import Post, Comment
 from django.views.generic import (ListView, DetailView, UpdateView, DeleteView,
                                     TemplateView, CreateView)
@@ -23,7 +23,7 @@ class PostListView(ListView):
     model = Post
 
     def get_queryset(self):
-        return Post.objects.filter(published_date__lte=timezone.now()).orderby('-published_date')
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 
 class PostDetailView(DetailView):
     model = Post
@@ -50,7 +50,7 @@ class DraftListView(LoginRequiredMixin,ListView):
     
     model = Post
     def get_queryset(self):
-        return Post.objects.filter(published_date__isnull=True).orderby('created_date')
+        return Post.objects.filter(published_date__isnull=True).order_by('created_date')
 
 
 @login_required
@@ -61,7 +61,7 @@ def post_publish(request,pk):
 
 ################### CommentViews ###########################
 
-@login_required
+# @login_required
 def add_comment_to_post(request,pk):
     post = get_object_or_404(Post,pk=pk)
 

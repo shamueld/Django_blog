@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h2>Blogs that you will love to read....</h2>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry
+</div>
+<div class="row">
+    <div class="card col-2">
+        <h4><strong>Posts list:</strong></h4>
+        <ul>
+        {% for post in post_list %}
+            <li><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-10">
+        <div class="row">
+        {% for post in post_list %}
+        <div class="postlist col-4">
+            <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+            <div class='date'>
+                <h4>Created on: {{ post.published_date|date:"D M Y" }}</h4>
+                <p class="postconent"><strong>Description:</strong> {{ post.text|safe|linebreaksbr|truncatechars:100 }}</p>
+            </div>
+            <a href="{% url 'post_detail' pk=post.pk %}">Total Comments = {{post.approved_comments.count}}</a>       
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
